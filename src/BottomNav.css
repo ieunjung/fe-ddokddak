@@ -4,8 +4,10 @@
     left: 0;
     right: 0;
     height: 45px;
-    font-size: 20px;
+    font-size: 15px;
+    background: #D9D9D9;
 }
+
 
 nav {
     overflow: hidden;
@@ -15,6 +17,11 @@ nav > div {
     text-align: center;
     float: left;
     width: 33%;
-    height: 45px;
+    height: 52px;
     line-height: 45px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(37, 37, 37);
 }
