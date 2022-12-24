@@ -6,6 +6,9 @@ import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
 import BottomNav from './BottomNav';
 
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './styles';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
@@ -13,8 +16,10 @@ root.render(
   <React.StrictMode>
     <RecoilRoot>
       <BrowserRouter>
-        <BottomNav />
-        <App />
+        <ThemeProvider theme={theme}>
+          <BottomNav />
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     </RecoilRoot>
   </React.StrictMode>,
