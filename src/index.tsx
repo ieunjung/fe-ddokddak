@@ -9,6 +9,9 @@ import BottomNav from './BottomNav';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './styles';
 
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './styles';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
