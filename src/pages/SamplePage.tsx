@@ -2,7 +2,6 @@ import { Typography } from '@mui/material';
 import SampleButton from '../components/SampleButton';
 import React from 'react';
 
-
 const SamplePage = () => {
   return (
     <>

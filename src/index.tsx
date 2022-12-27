@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import { RecoilRoot } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
+import BottomNav from './BottomNav';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './styles';
@@ -16,6 +17,7 @@ root.render(
     <RecoilRoot>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
+          <BottomNav />
           <App />
         </ThemeProvider>
       </BrowserRouter>
