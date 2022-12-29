@@ -1,5 +1,5 @@
 import { Method } from 'axios';
-import CommonResponse from '../http';
+import CommonResponse, { getInstance } from '../http';
 
 export interface APIContract {
   method: Method;
@@ -9,23 +9,26 @@ export interface APIContract {
 }
 
 export const callAPI = async <T = any>(
-  { ...contract }: APIContract,
-  isLoading: boolean,
-): Promise<CommonResponse<T>> => {
-    let response: CommonResponse = {
-        successOrNot: "N",
-        statusCode: "",
-        data: {}
-    }
+  { url, method, params, body }: APIContract,
+  isLoading?: boolean,
+): Promise<any> => {
+  let response: CommonResponse = {
+    successOrNot: 'N',
+    statusCode: '',
+    data: {},
+  };
 
-    // try {
-    //     // response = await getInstan
-    // }
+  try {
+    response = await getInstance(isLoading).request({
+      url,
+      method,
+      params,
+      data: body,
+    });
+  } catch (error) {
+    response.data = error;
+  }
 
-  return await callAPI<T>(
-    {
-      ...contract,
-    },
-    isLoading,
-  );
+  // return response as CommonResponse<T>; 추후에 response 정해지면 any 대신 사용
+  return response as any;
 };
