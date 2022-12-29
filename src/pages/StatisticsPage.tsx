@@ -6,10 +6,11 @@ import {
   Tooltip,
   Legend,
   CategoryScale,
+  registerables,
 } from 'chart.js';
-import { Pie, Bar, Line } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 
-ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale);
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 
 const pieData = {
   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -86,34 +87,14 @@ const lineData = {
 
 const StatisticsPage = () => {
   const [chartType, setChartType] = useState<'bar' | 'line' | 'pie'>('pie');
-  const chartBarRef = useRef();
-  const chartLineRef = useRef();
-  const chartPieRef = useRef();
+
+  const chartData = {
+    bar: barData,
+    line: lineData,
+    pie: pieData,
+  };
 
   const changeChartType = (newType: 'bar' | 'line' | 'pie') => {
-    console.log(chartPieRef.current);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (chartBarRef.current) {
-      console.log(chartBarRef);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      chartBarRef.destroy();
-    }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (chartLineRef.current && chartLineRef.current.chart) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      chartLineRef.current.chart.destroy();
-    }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (chartPieRef.current) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      chartPieRef.current.chartInstance.destroy();
-    }
     setChartType(newType);
   };
   return (
@@ -122,20 +103,7 @@ const StatisticsPage = () => {
       <Button onClick={() => changeChartType('pie')}>PIE</Button>
       <Button onClick={() => changeChartType('line')}>LINE</Button>
       <Button onClick={() => changeChartType('bar')}>BAR</Button>
-      {chartType === 'pie' && <Pie data={pieData} ref={chartPieRef} redraw />}
-      {chartType === 'bar' && (
-        <Bar
-          data={barData}
-          options={options}
-          width="894px"
-          height="320px"
-          ref={chartBarRef}
-          redraw
-        />
-      )}
-      {chartType === 'line' && (
-        <Line data={lineData} options={options} ref={chartLineRef} redraw />
-      )}
+      <Chart type={chartType} data={chartData[chartType]} options={options} />
     </div>
   );
 };
