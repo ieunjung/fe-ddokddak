@@ -17,8 +17,8 @@ root.render(
     <RecoilRoot>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <BottomNav />
           <App />
+          <BottomNav />
         </ThemeProvider>
       </BrowserRouter>
     </RecoilRoot>
