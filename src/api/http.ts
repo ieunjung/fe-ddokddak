@@ -8,7 +8,8 @@ export default interface CommonResponse<T = any> {
 }
 
 export const getInstance = (isLoading = true, params?: any): AxiosInstance => {
-  const baseURL = `${process.env.REACT_APP_URL}`;
+  // const baseURL = `${process.env.REACT_APP_URL}`;
+  const baseURL = `http://localhost:8080`;
 
   const instance = axios.create({
     baseURL: baseURL,
