@@ -21,9 +21,9 @@ const SamplePage = () => {
         <Button onClick={search}>조회하기!</Button>
         <Button onClick={() => setUsers(undefined)}>리셋</Button>
       </Box>
-      {users && <p>{users.total}명이 조회되었습니다.</p>}
+      {users && <p>{users?.total}명이 조회되었습니다.</p>}
       {users &&
-        users.users.map((el) => (
+        users?.users?.map((el) => (
           <div
             key={el.userId}
           >{`First name : ${el.firstname}, Last name : ${el.lastname}`}</div>
