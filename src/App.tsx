@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import SamplePage from './pages/SamplePage';
 import RecordPage from './pages/record/RecordPage';
@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Routes>
-          <Route path="/" element={<SamplePage />} />
+          <Route path="/" element={<Navigate to="/record"/>} />
           <Route path="/record" element={<RecordPage />} />
           <Route path="/statistics" element={<StatisticsPage />} />
           <Route path="/settings" element={<SettingsPage />} />

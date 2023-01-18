@@ -1,6 +1,5 @@
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import React, { useState } from 'react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import CommonHeader from '../../components/layout/CommonHeader';
@@ -8,6 +7,9 @@ import { SelectedRangeData } from './CreateRecordPage';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { selectedTimeRangeState } from '../../store/record';
+import Spacer from '../../components/common/Spacer';
+import { Container } from '@mui/system';
+import './RecordPage.css';
 
 const events = [{ title: 'Meeting', start: new Date() }];
 
@@ -35,7 +37,9 @@ const INITIAL_EVENTS = [
 
 const RecordPage = () => {
   const navigation = useNavigate();
-  const setSelectedDate = useSetRecoilState<SelectedRangeData>(selectedTimeRangeState);
+  const setSelectedDate = useSetRecoilState<SelectedRangeData>(
+    selectedTimeRangeState,
+  );
 
   const handleDateSelect = (e: any) => {
     const selectedDate: SelectedRangeData = {
@@ -55,30 +59,36 @@ const RecordPage = () => {
   return (
     <div>
       <CommonHeader title={'메인화면'} />
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay',
-        }}
-        eventColor="#FF8999"
-        initialView="timeGridWeek"
-        editable={true}
-        selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-        select={handleDateSelect}
-        eventContent={renderEventContent} // custom render function
-        eventClick={handleEventClick}
-        eventsSet={handleEvents} // called after events are initialized/added/changed/removed
-        /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
-      />
+      <Container className={'contentWrapper'}>
+        <Spacer y={16} />
+        <FullCalendar
+          height={'calc(100% - 16px)'}
+          allDaySlot={false}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          headerToolbar={{
+            left: 'prev',
+            center: 'title',
+            right: 'next',
+          }}
+          eventColor="#FF8999"
+          initialView="timeGridWeek"
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          // dayMaxEvents={true}
+          initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+          select={handleDateSelect}
+          eventContent={renderEventContent} // custom render function
+          eventClick={handleEventClick}
+          eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+          /* you can update a remote database when these fire:
+          eventAdd={function(){}}
+          eventChange={function(){}}
+          eventRemove={function(){}}
+          */
+         contentHeight={'2'}
+        />
+      </Container>
     </div>
   );
 };
