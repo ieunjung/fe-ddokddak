@@ -9,6 +9,7 @@ import {
   registerables,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
+import CommonHeader from '../../components/layout/CommonHeader';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 
@@ -98,13 +99,13 @@ const StatisticsPage = () => {
     setChartType(newType);
   };
   return (
-    <div>
-      <h1>통계 페이지</h1>
+    <>
+      <CommonHeader title={'기록하기'} isShowBackButton={true} />
       <Button onClick={() => changeChartType('pie')}>PIE</Button>
       <Button onClick={() => changeChartType('line')}>LINE</Button>
       <Button onClick={() => changeChartType('bar')}>BAR</Button>
       <Chart type={chartType} data={chartData[chartType]} options={options} />
-    </div>
+    </>
   );
 };
 
