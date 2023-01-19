@@ -1,4 +1,3 @@
-import './CreateRecordPage.css';
 import {
   Box,
   Button,
@@ -8,6 +7,7 @@ import {
   Divider,
   Theme,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { ReactElement, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -16,7 +16,9 @@ import FlexBox from '../../components/common/FlexBox';
 import CommonHeader from '../../components/layout/CommonHeader';
 import { selectedTimeRangeState } from '../../store/record';
 import { MainCategory } from '../category/CategoryPage';
-
+// import styles from './CreateRecordPage.module.css';
+import Circle from '../../components/common/Circle';
+import { makeStyles } from '@mui/styles';
 
 export interface SelectedRangeData {
   start: Date;
@@ -82,18 +84,40 @@ const getAMPM = (date: Date) => {
   return ampm;
 };
 
+const useStyles = makeStyles({
+  daysWrapper: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    marginTop: '8px',
+  },
+
+  timeRangeWrapper: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    padding: '32px',
+  },
+
+  settingCategoryChipWrapper: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    padding: '16px',
+  },
+});
+
 const CreateRecoredPage = (): ReactElement => {
   const selectedDate = useRecoilValue(selectedTimeRangeState);
   const [selectedCategoryIdx, setSelectedCategoryIdx] = useState(0);
   const [selectedSubCategoryIdx, setSelectedSubCategoryIdx] = useState(0);
+  const classes = useStyles();
 
+  const theme = useTheme();
   useEffect(() => {
     setSelectedSubCategoryIdx(0);
   }, [selectedCategoryIdx]);
   return (
     <>
       <CommonHeader title={'기록하기'} isShowBackButton={true} />
-      <Container className={"daysWrapper"}>
+      <Container className={classes.daysWrapper}>
         <DaysChip title="일" isSelected={selectedDate.start.getDay() === 0} />
         <DaysChip title="월" isSelected={selectedDate.start.getDay() === 1} />
         <DaysChip title="화" isSelected={selectedDate.start.getDay() === 2} />
@@ -102,7 +126,7 @@ const CreateRecoredPage = (): ReactElement => {
         <DaysChip title="금" isSelected={selectedDate.start.getDay() === 5} />
         <DaysChip title="토" isSelected={selectedDate.start.getDay() === 6} />
       </Container>
-      <Container className="timeRangeWrapper">
+      <Container className={classes.timeRangeWrapper}>
         <FlexBox>
           <Typography variant="h5">{`${selectedDate.start.getHours()}:${
             selectedDate.start.getMinutes() === 0
@@ -125,7 +149,7 @@ const CreateRecoredPage = (): ReactElement => {
       <Container sx={{ textAlign: 'right' }}>
         <Button variant="text">카테고리 설정</Button>
       </Container>
-      <Container className="settingCategoryChipWrapper">
+      <Container className={classes.settingCategoryChipWrapper}>
         {categories.map((category, idx) =>
           idx === selectedCategoryIdx ? (
             <Chip
@@ -147,28 +171,18 @@ const CreateRecoredPage = (): ReactElement => {
           ),
         )}
       </Container>
-      <Container className="settingCategoryChipWrapper">
+      <Container className={classes.settingCategoryChipWrapper}>
         {categories &&
-          categories[selectedCategoryIdx].subCategories.map((sub, idx) =>
-            idx === selectedSubCategoryIdx ? (
-              <Chip
-                key={sub.title}
-                label={sub.title}
-                variant="filled"
-                color="secondary"
-                size="medium"
-                onClick={() => setSelectedSubCategoryIdx(idx)}
-              />
-            ) : (
-              <Chip
-                key={sub.title}
-                label={sub.title}
-                variant="outlined"
-                size="medium"
-                onClick={() => setSelectedSubCategoryIdx(idx)}
-              />
-            ),
-          )}
+          categories[selectedCategoryIdx].subCategories.map((sub, idx) => (
+            <Circle
+              key={sub.title}
+              label={sub.title}
+              variant={idx === selectedSubCategoryIdx ? 'filled' : 'outlined'}
+              color={sub.color}
+              size={40}
+              onClick={() => setSelectedSubCategoryIdx(idx)}
+            />
+          ))}
       </Container>
       <Divider />
     </>

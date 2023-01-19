@@ -1,7 +1,5 @@
-import { Box } from '@mui/material';
-
 const FlexBox = ({ children }: any) => {
-  return <Box sx={{ display: 'flex' }}>{children}</Box>;
+  return <div style={{ display: 'flex' }}>{children}</div>;
 };
 
 export default FlexBox;
