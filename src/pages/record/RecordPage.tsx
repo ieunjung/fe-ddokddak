@@ -9,13 +9,6 @@ import { useSetRecoilState } from 'recoil';
 import { selectedTimeRangeState } from '../../store/record';
 import Spacer from '../../components/common/Spacer';
 import { Container } from '@mui/system';
-import { makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles({
-  contentWrapper: {
-    height: 'calc(100vh - 112px)',
-  },
-});
 
 const renderEventContent = (eventInfo: any) => {
   return (
@@ -44,7 +37,6 @@ const RecordPage = () => {
   const setSelectedDate = useSetRecoilState<SelectedRangeData>(
     selectedTimeRangeState,
   );
-  const classes = useStyles();
 
   const handleDateSelect = (e: any) => {
     const selectedDate: SelectedRangeData = {
@@ -64,7 +56,11 @@ const RecordPage = () => {
   return (
     <div>
       <CommonHeader title={'메인화면'} />
-      <Container className={classes.contentWrapper}>
+      <Container
+        sx={{
+          height: 'calc(100vh - 112px)',
+        }}
+      >
         <Spacer y={16} />
         <FullCalendar
           height={'calc(100% - 16px)'}
