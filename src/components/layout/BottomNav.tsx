@@ -1,10 +1,10 @@
 import React from 'react';
-import './BottomNav.css';
+// import './BottomNav.css';
 import { Link } from 'react-router-dom';
 import { BottomNavigation, BottomNavigationAction } from '@mui/material';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import SettingsIcon from '@mui/icons-material/Settings';
-import CreateIcon from '@mui/icons-material/Create';
+// import BarChartIcon from '@mui/icons-material/BarChart';
+// import SettingsIcon from '@mui/icons-material/Settings';
+// import CreateIcon from '@mui/icons-material/Create';
 
 const BottomNav = () => {
   const [value, setValue] = React.useState(0);
@@ -20,19 +20,19 @@ const BottomNav = () => {
     >
       <BottomNavigationAction
         label="기록"
-        icon={<CreateIcon />}
+        // icon={<CreateIcon />}
         component={Link}
         to="/record"
       />
       <BottomNavigationAction
         label="통계"
-        icon={<BarChartIcon />}
+        // icon={<BarChartIcon />}
         component={Link}
         to="/statistics"
       />
       <BottomNavigationAction
         label="설정"
-        icon={<SettingsIcon />}
+        // icon={<SettingsIcon />}
         component={Link}
         to="/settings"
       />
