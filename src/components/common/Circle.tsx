@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+
 export interface CircleProps {
   size: number;
   color: any;

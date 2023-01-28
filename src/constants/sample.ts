@@ -1,1 +1,1 @@
-export const DEFAULT_TIME_INTERVAL:number = 30;
+export const DEFAULT_TIME_INTERVAL = 30;

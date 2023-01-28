@@ -1,4 +1,5 @@
 import { Method } from 'axios';
+
 import CommonResponse, { getInstance } from '../http';
 
 export interface APIContract {

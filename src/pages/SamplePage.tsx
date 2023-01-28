@@ -1,7 +1,8 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import SampleButton from '../components/SampleButton';
 import React, { useState } from 'react';
+
 import { getDummyUsers, UsersResponse } from '../api/sample.api';
+import SampleButton from '../components/SampleButton';
 
 const SamplePage = () => {
   const [users, setUsers] = useState<UsersResponse>();
