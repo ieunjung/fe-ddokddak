@@ -6,13 +6,11 @@ import { Container } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
-import Spacer from '../../components/common/Spacer';
-import CommonHeader from '../../components/layout/CommonHeader';
-import { selectedTimeRangeState } from '../../store/record';
-
 import { SelectedRangeData } from './CreateRecordPage';
 
-
+import Spacer from '@/components/common/Spacer';
+import CommonHeader from '@/components/layout/CommonHeader';
+import { selectedTimeRangeState } from '@/store/record';
 
 const renderEventContent = (eventInfo: any) => {
   return (

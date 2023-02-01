@@ -2,12 +2,12 @@ import './App.css';
 import { ThemeProvider } from '@mui/material';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-import BottomNav from './components/layout/BottomNav';
-import CreateRecoredPage from './pages/record/CreateRecordPage';
-import RecordPage from './pages/record/RecordPage';
-import SettingsPage from './pages/settings/SettingsPage';
-import StatisticsPage from './pages/statistics/StatisticsPage';
-import { theme } from './styles';
+import BottomNav from '@/components/layout/BottomNav';
+import CreateRecoredPage from '@/pages/record/CreateRecordPage';
+import RecordPage from '@/pages/record/RecordPage';
+import SettingsPage from '@/pages/settings/SettingsPage';
+import StatisticsPage from '@/pages/statistics/StatisticsPage';
+import { theme } from '@/styles';
 
 function App() {
   return (
