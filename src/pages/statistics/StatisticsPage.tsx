@@ -11,6 +11,7 @@ import React, { useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
 
 import CommonHeader from '@/components/layout/CommonHeader';
+import SubHeader from '@/components/layout/SubHeader';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 
@@ -101,10 +102,11 @@ const StatisticsPage = () => {
   };
   return (
     <>
-      <CommonHeader title={'기록하기'} isShowBackButton={true} />
-      <Button onClick={() => changeChartType('pie')}>PIE</Button>
+      <CommonHeader title={'통계'} isShowBackButton={true} />
+      {/* <Button onClick={() => changeChartType('pie')}>PIE</Button>
       <Button onClick={() => changeChartType('line')}>LINE</Button>
-      <Button onClick={() => changeChartType('bar')}>BAR</Button>
+      <Button onClick={() => changeChartType('bar')}>BAR</Button> */}
+      <SubHeader titleList={['일별', '주별', '달별', '연별']} />
       <Chart type={chartType} data={chartData[chartType]} options={options} />
     </>
   );
