@@ -1,4 +1,3 @@
-import React, { useRef, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import {
   Chart as ChartJS,
@@ -8,8 +7,10 @@ import {
   CategoryScale,
   registerables,
 } from 'chart.js';
+import React, { useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
-import CommonHeader from '../../components/layout/CommonHeader';
+
+import CommonHeader from '@/components/layout/CommonHeader';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 

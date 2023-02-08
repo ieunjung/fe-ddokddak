@@ -12,13 +12,14 @@ import {
 } from '@mui/material';
 import { ReactElement, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import DaysChip from '../../components/date/DaysChip';
-import FlexBox from '../../components/common/FlexBox';
-import CommonHeader from '../../components/layout/CommonHeader';
-import { selectedTimeRangeState } from '../../store/record';
-import { MainCategory } from '../category/CategoryPage';
+
+import Circle from '@/components/common/Circle';
+import FlexBox from '@/components/common/FlexBox';
+import DaysChip from '@/components/date/DaysChip';
+import CommonHeader from '@/components/layout/CommonHeader';
+import { MainCategory } from '@/pages/category/CategoryPage';
+import { selectedTimeRangeState } from '@/store/record';
 // import styles from './CreateRecordPage.module.css';
-import Circle from '../../components/common/Circle';
 
 export interface SelectedRangeData {
   start: Date;

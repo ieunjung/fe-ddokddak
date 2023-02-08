@@ -1,14 +1,16 @@
-import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import CommonHeader from '../../components/layout/CommonHeader';
-import { SelectedRangeData } from './CreateRecordPage';
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import { Container } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { selectedTimeRangeState } from '../../store/record';
-import Spacer from '../../components/common/Spacer';
-import { Container } from '@mui/system';
+
+import { SelectedRangeData } from './CreateRecordPage';
+
+import Spacer from '@/components/common/Spacer';
+import CommonHeader from '@/components/layout/CommonHeader';
+import { selectedTimeRangeState } from '@/store/record';
 
 const renderEventContent = (eventInfo: any) => {
   return (
