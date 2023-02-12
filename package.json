@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.0",
+    "@date-io/jalaali": "^2.16.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fullcalendar/core": "^6.0.3",
@@ -15,6 +16,7 @@
     "@mui/material": "^5.10.17",
     "@mui/styled-engine-sc": "^5.10.16",
     "@mui/styles": "^5.11.2",
+    "@mui/x-date-pickers": "^5.0.18",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.5",

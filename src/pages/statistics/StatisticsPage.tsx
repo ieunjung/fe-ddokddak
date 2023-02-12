@@ -1,4 +1,12 @@
-import { Button, Typography } from '@mui/material';
+import { Button, Box } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -7,7 +15,8 @@ import {
   CategoryScale,
   registerables,
 } from 'chart.js';
-import React, { useRef, useState } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
+import { useState } from 'react';
 import { Chart } from 'react-chartjs-2';
 
 import CommonHeader from '@/components/layout/CommonHeader';
@@ -100,13 +109,30 @@ const StatisticsPage = () => {
   const changeChartType = (newType: 'bar' | 'line' | 'pie') => {
     setChartType(newType);
   };
+
+  const [value, setValue] = useState<Dayjs | null>(
+    dayjs('2014-08-18T21:11:54'),
+  );
+
+  const handleChange = (newValue: Dayjs | null) => {
+    setValue(newValue);
+  };
+
   return (
     <>
       <CommonHeader title={'통계'} isShowBackButton={true} />
-      {/* <Button onClick={() => changeChartType('pie')}>PIE</Button>
-      <Button onClick={() => changeChartType('line')}>LINE</Button>
-      <Button onClick={() => changeChartType('bar')}>BAR</Button> */}
       <SubHeader titleList={['일별', '주별', '달별', '연별']} />
+      <Box>날짜</Box>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <MobileDatePicker
+          label="Date mobile"
+          inputFormat="MM월 DD일 x요일"
+          value={value}
+          onChange={handleChange}
+          renderInput={(params: TextFieldProps) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
+      <Button onClick={() => changeChartType('bar')}>BAR</Button>
       <Chart type={chartType} data={chartData[chartType]} options={options} />
     </>
   );

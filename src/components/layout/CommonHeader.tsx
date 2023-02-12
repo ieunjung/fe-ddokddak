@@ -1,13 +1,5 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import MenuIcon from '@mui/icons-material/Menu';
-import {
-  Box,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
-} from '@mui/material';
+import { Box, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 
