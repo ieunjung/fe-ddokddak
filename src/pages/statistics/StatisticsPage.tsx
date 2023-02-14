@@ -1,12 +1,8 @@
-import { Button, Box } from '@mui/material';
-import Stack from '@mui/material/Stack';
+import { Button, Box, AppBar, Tabs, Tab } from '@mui/material';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -97,6 +93,15 @@ const lineData = {
   ],
 };
 
+const periodTypes = ['일별', '주별', '달별', '연별'] as const;
+
+function a11yProps(index: number) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+}
+
 const StatisticsPage = () => {
   const [chartType, setChartType] = useState<'bar' | 'line' | 'pie'>('pie');
 
@@ -118,21 +123,60 @@ const StatisticsPage = () => {
     setValue(newValue);
   };
 
+  const [periodType, setPeriodType] = useState(0);
+
+  const handlePeriodTypeChange = (event: SyntheticEvent, newValue: number) => {
+    setPeriodType(newValue);
+  };
+
   return (
     <>
       <CommonHeader title={'통계'} isShowBackButton={true} />
-      <SubHeader titleList={['일별', '주별', '달별', '연별']} />
-      <Box>날짜</Box>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <MobileDatePicker
-          label="Date mobile"
-          inputFormat="MM월 DD일 x요일"
-          value={value}
-          onChange={handleChange}
-          renderInput={(params: TextFieldProps) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
-      <Button onClick={() => changeChartType('bar')}>BAR</Button>
+      {/* <SubHeader titleList={['일별', '주별', '달별', '연별']} /> */}
+      <Box sx={{ bgcolor: 'background.paper' }}>
+        <AppBar position="static">
+          <Tabs
+            value={periodType}
+            onChange={handlePeriodTypeChange}
+            indicatorColor="secondary"
+            textColor="inherit"
+            variant="fullWidth"
+            aria-label="full width tabs"
+          >
+            {periodTypes.map((title, idx) => (
+              <Tab
+                key={'sub-header-' + idx}
+                label={title}
+                {...a11yProps(idx)}
+              />
+            ))}
+          </Tabs>
+        </AppBar>
+      </Box>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="koKR">
+          <DatePicker
+            inputFormat="MM월 DD일 x요일"
+            value={value}
+            onChange={handleChange}
+            renderInput={(params: TextFieldProps) => <TextField {...params} />}
+          />
+          {/* <DatePicker
+            label="일별"
+            value={value}
+            onChange={(newValue) => {
+              console.log(newValue);
+            }}
+            renderInput={({ inputRef, inputProps, InputProps }) => (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <input ref={inputRef} {...inputProps} />
+                {InputProps?.endAdornment}
+              </Box>
+            )}
+          /> */}
+        </LocalizationProvider>
+      </Box>
+      {/* <Button onClick={() => changeChartType('bar')}>BAR</Button> */}
       <Chart type={chartType} data={chartData[chartType]} options={options} />
     </>
   );
