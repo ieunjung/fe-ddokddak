@@ -1,8 +1,10 @@
 import { Button, Box, AppBar, Tabs, Tab } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
+import { koKR as coreKoKR } from '@mui/material/locale';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { DatePicker, LocalizationProvider, koKR } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -17,6 +19,10 @@ import { Chart } from 'react-chartjs-2';
 
 import CommonHeader from '@/components/layout/CommonHeader';
 import SubHeader from '@/components/layout/SubHeader';
+
+const theme = createTheme(
+  coreKoKR, // core translations
+);
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 
@@ -111,9 +117,9 @@ const StatisticsPage = () => {
     pie: pieData,
   };
 
-  const changeChartType = (newType: 'bar' | 'line' | 'pie') => {
-    setChartType(newType);
-  };
+  // const changeChartType = (newType: 'bar' | 'line' | 'pie') => {
+  //   setChartType(newType);
+  // };
 
   const [value, setValue] = useState<Dayjs | null>(
     dayjs('2014-08-18T21:11:54'),
@@ -133,6 +139,7 @@ const StatisticsPage = () => {
     <>
       <CommonHeader title={'통계'} isShowBackButton={true} />
       {/* <SubHeader titleList={['일별', '주별', '달별', '연별']} /> */}
+
       <Box sx={{ bgcolor: 'background.paper' }}>
         <AppBar position="static">
           <Tabs
@@ -153,29 +160,70 @@ const StatisticsPage = () => {
           </Tabs>
         </AppBar>
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="koKR">
-          <DatePicker
-            inputFormat="MM월 DD일 x요일"
-            value={value}
-            onChange={handleChange}
-            renderInput={(params: TextFieldProps) => <TextField {...params} />}
-          />
-          {/* <DatePicker
-            label="일별"
-            value={value}
-            onChange={(newValue) => {
-              console.log(newValue);
-            }}
-            renderInput={({ inputRef, inputProps, InputProps }) => (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <input ref={inputRef} {...inputProps} />
-                {InputProps?.endAdornment}
-              </Box>
-            )}
-          /> */}
-        </LocalizationProvider>
-      </Box>
+
+      <Grid
+        container
+        sx={{
+          direction: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 1,
+          borderBottom: 1,
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            adapterLocale="ko"
+            localeText={
+              koKR.components.MuiLocalizationProvider.defaultProps.localeText
+            }
+          >
+            <DatePicker
+              inputFormat="MM월 DD일 x요일"
+              value={value}
+              onChange={handleChange}
+              dayOfWeekFormatter={(day) => {
+                switch (day) {
+                  case 'Mo':
+                    return '월';
+                  case 'Tu':
+                    return '화';
+                  case 'We':
+                    return '수';
+                  case 'Th':
+                    return '목';
+                  case 'Fr':
+                    return '금';
+                  case 'Sa':
+                    return '토';
+                  case 'Su':
+                    return '일';
+                  default:
+                    return '';
+                }
+              }}
+              renderInput={(params: TextFieldProps) => (
+                <TextField {...params} />
+              )}
+            />
+            {/* <DatePicker
+              label="일별"
+              value={value}
+              onChange={(newValue) => {
+                console.log(newValue);
+              }}
+              renderInput={({ inputRef, inputProps, InputProps }) => (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <input ref={inputRef} {...inputProps} />
+                  {InputProps?.endAdornment}
+                </Box>
+              )}
+            /> */}
+          </LocalizationProvider>
+        </ThemeProvider>
+      </Grid>
+
       {/* <Button onClick={() => changeChartType('bar')}>BAR</Button> */}
       <Chart type={chartType} data={chartData[chartType]} options={options} />
     </>
