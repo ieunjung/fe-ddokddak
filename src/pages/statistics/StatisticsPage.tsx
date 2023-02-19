@@ -9,9 +9,11 @@ import {
 } from 'chart.js';
 import React, { useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
+import { useSetRecoilState } from 'recoil';
 
 import CommonHeader from '@/components/layout/CommonHeader';
 import SubHeader from '@/components/layout/SubHeader';
+import { modalState, openModalState } from '@/store/common';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 
@@ -100,6 +102,13 @@ const StatisticsPage = () => {
   const changeChartType = (newType: 'bar' | 'line' | 'pie') => {
     setChartType(newType);
   };
+
+  const setTest = useSetRecoilState(openModalState);
+  // const setModalState = useSetRecoilState(modalState);
+  const handleClickBtn = () => {
+    setTest(true);
+  };
+
   return (
     <>
       <CommonHeader title={'통계'} isShowBackButton={true} />
@@ -107,6 +116,7 @@ const StatisticsPage = () => {
       <Button onClick={() => changeChartType('line')}>LINE</Button>
       <Button onClick={() => changeChartType('bar')}>BAR</Button> */}
       <SubHeader titleList={['일별', '주별', '달별', '연별']} />
+      <button onClick={handleClickBtn}>TEST</button>
       <Chart type={chartType} data={chartData[chartType]} options={options} />
     </>
   );
