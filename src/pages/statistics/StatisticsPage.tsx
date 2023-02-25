@@ -9,11 +9,11 @@ import {
 } from 'chart.js';
 import React, { useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import CommonHeader from '@/components/layout/CommonHeader';
 import SubHeader from '@/components/layout/SubHeader';
-import { modalState, openModalState } from '@/store/common';
+import { modalState } from '@/store/common';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 
@@ -99,14 +99,14 @@ const StatisticsPage = () => {
     pie: pieData,
   };
 
-  const changeChartType = (newType: 'bar' | 'line' | 'pie') => {
-    setChartType(newType);
-  };
+  // const changeChartType = (newType: 'bar' | 'line' | 'pie') => {
+  //   setChartType(newType);
+  // };
 
-  const setTest = useSetRecoilState(openModalState);
-  // const setModalState = useSetRecoilState(modalState);
+  const [modalInfo, setModalInfo] = useRecoilState(modalState);
+
   const handleClickBtn = () => {
-    setTest(true);
+    setModalInfo({ ...modalInfo, open: true, msg: 'This is a test.' });
   };
 
   return (

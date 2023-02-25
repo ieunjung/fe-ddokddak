@@ -1,15 +1,15 @@
 import { Box, Modal as MuiModal } from '@mui/material';
 import { useRecoilState } from 'recoil';
 
-import { openModalState } from '@/store/common';
+import { modalState } from '@/store/common';
 
 const Modal = () => {
-  const [open, setOpen] = useRecoilState(openModalState);
-  const handleClose = () => setOpen(false);
+  const [modalInfo, setModalInfo] = useRecoilState(modalState);
+  const handleClose = () => setModalInfo({ ...modalInfo, open: false });
 
   return (
     <MuiModal
-      open={open}
+      open={modalInfo.open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
@@ -26,7 +26,10 @@ const Modal = () => {
           boxShadow: 24,
           p: 4,
         }}
-      ></Box>
+      >
+        <h2 id="modal-modal-title">{modalInfo.title}</h2>
+        <p id="modal-modal-description">{modalInfo.msg}</p>
+      </Box>
     </MuiModal>
   );
 };
