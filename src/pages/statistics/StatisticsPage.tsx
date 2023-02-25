@@ -1,4 +1,3 @@
-import { Button, Typography } from '@mui/material';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -7,7 +6,7 @@ import {
   CategoryScale,
   registerables,
 } from 'chart.js';
-import React, { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Chart } from 'react-chartjs-2';
 import { useRecoilState } from 'recoil';
 
