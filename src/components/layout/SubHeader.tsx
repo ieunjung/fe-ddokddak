@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import { AppBar, Tabs, Tab, Box } from '@mui/material';
+import { useState, SyntheticEvent } from 'react';
 
 function a11yProps(index: number) {
   return {
@@ -14,9 +13,9 @@ interface SubHeaderProps {
 }
 
 export default function SubHeader(props: SubHeaderProps) {
-  const [periodType, setPeriodType] = React.useState(0);
+  const [periodType, setPeriodType] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     setPeriodType(newValue);
   };
 
