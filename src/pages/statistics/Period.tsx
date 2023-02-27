@@ -1,5 +1,5 @@
 import { AppBar, Tabs, Tab, Box, Grid, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useState, SyntheticEvent } from 'react';
 
 function a11yProps(index: number) {
   return {
@@ -21,12 +21,10 @@ const periodTypeList: IPeriodType[] = [
 ];
 
 const Period = () => {
-  const [periodType, setPeriodType] = useState(periodTypeList[0]);
+  const [periodType, setPeriodType] = useState(periodTypeList[0].id);
 
-  const handleChange = (type: IPeriodType) => {
-    console.log(type);
-
-    setPeriodType(type);
+  const handleChange = (e: SyntheticEvent, value: any) => {
+    setPeriodType(value);
   };
 
   return (
@@ -35,8 +33,8 @@ const Period = () => {
       <Box sx={{ bgcolor: 'background.paper' }}>
         <AppBar position="static">
           <Tabs
-            value={periodType.id}
-            onChange={() => handleChange(periodType)}
+            value={periodType}
+            onChange={handleChange}
             indicatorColor="secondary"
             textColor="inherit"
             variant="fullWidth"
@@ -44,7 +42,7 @@ const Period = () => {
           >
             {periodTypeList.map((period, idx) => (
               <Tab
-                key={'sub-header-' + idx}
+                key={'period-selector-' + idx}
                 label={period.title}
                 value={period.id}
                 {...a11yProps(idx)}
@@ -66,11 +64,11 @@ const Period = () => {
           borderBottom: 1,
         }}
       >
-        {periodType.id === 'BY_DAY' && (
+        {periodType === 'BY_DAY' && (
           <TextField
             id="date"
             type="date"
-            defaultValue="2017-05-24"
+            defaultValue={new Date().toISOString().slice(0, 10)}
             sx={{ width: 220 }}
             InputLabelProps={{
               shrink: true,
