@@ -1,5 +1,10 @@
 import { AppBar, Tabs, Tab, Box, Grid, TextField } from '@mui/material';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import dayjs, { Dayjs } from 'dayjs';
 import { useState, SyntheticEvent } from 'react';
+import PickerDay from './PickerDay';
 
 function a11yProps(index: number) {
   return {
@@ -8,9 +13,10 @@ function a11yProps(index: number) {
   };
 }
 
+type PeriodType = 'BY_DAY' | 'BY_WEEK' | 'BY_MONTH' | 'BY_YEAR';
 export interface IPeriodType {
   title: string;
-  id: string;
+  id: PeriodType;
 }
 
 const periodTypeList: IPeriodType[] = [
@@ -22,19 +28,21 @@ const periodTypeList: IPeriodType[] = [
 
 const Period = () => {
   const [periodType, setPeriodType] = useState(periodTypeList[0].id);
-
-  const handleChange = (e: SyntheticEvent, value: any) => {
+  const handlePeriodChange = (e: SyntheticEvent, value: any) => {
     setPeriodType(value);
   };
 
+  const [value, setValue] = useState<Dayjs | null>(dayjs('2022-04-07'));
+  const currDate = new Date().toISOString().slice(0, 10);
+
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       {/* 날짜 선택 타입 시작 */}
       <Box sx={{ bgcolor: 'background.paper' }}>
         <AppBar position="static">
           <Tabs
             value={periodType}
-            onChange={handleChange}
+            onChange={handlePeriodChange}
             indicatorColor="secondary"
             textColor="inherit"
             variant="fullWidth"
@@ -68,16 +76,47 @@ const Period = () => {
           <TextField
             id="date"
             type="date"
-            defaultValue={new Date().toISOString().slice(0, 10)}
+            label="일별"
+            defaultValue={currDate}
+            onChange={(newValue) => {
+              console.log(newValue);
+            }}
             sx={{ width: 220 }}
             InputLabelProps={{
               shrink: true,
             }}
           />
         )}
+        {periodType === 'BY_WEEK' && (
+          <PickerDay value={value} setValue={setValue} />
+        )}
+        {periodType === 'BY_MONTH' && (
+          <DatePicker
+            views={['year', 'month']}
+            label="월별"
+            minDate={dayjs('2012-03-01')}
+            maxDate={dayjs(currDate)}
+            value={value}
+            onChange={(newValue: any) => {
+              setValue(newValue);
+            }}
+            renderInput={(params: any) => <TextField {...params} helperText={null} />}
+          />
+        )}
+        {periodType === 'BY_YEAR' && (
+          <DatePicker
+          views={['year']}
+          label="연별"
+          value={value}
+          onChange={(newValue) => {
+            setValue(newValue);
+          }}
+          renderInput={(params) => <TextField {...params} helperText={null} />}
+        />
+        )}
       </Grid>
       {/* 날짜 선택 끝 */}
-    </>
+    </LocalizationProvider>
   );
 };
 
