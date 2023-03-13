@@ -4,6 +4,7 @@ import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
+// import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 dayjs.extend(isBetweenPlugin);
 
@@ -35,14 +36,59 @@ const CustomPickersDay = styled(PickersDay, {
   }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
-const PickerDay = ({value, setValue}: any) => {
-    console.log(value);
+// function Day(props: PickersDayProps<Dayjs> & { selectedDay?: Dayjs | null }) {
+//   const { day, selectedDay, ...other } = props;
+
+//   if (selectedDay == null) {
+//     return <PickersDay day={day} {...other} />;
+//   }
+
+//   const start = selectedDay.startOf('week');
+//   const end = selectedDay.endOf('week');
+
+//   const dayIsBetween = day.isBetween(start, end, null, '[]');
+//   const isFirstDay = day.isSame(start, 'day');
+//   const isLastDay = day.isSame(end, 'day');
+
+//   return (
+//     <CustomPickersDay
+//       {...other}
+//       day={day}
+//       disableMargin
+//       dayIsBetween={dayIsBetween}
+//       isFirstDay={isFirstDay}
+//       isLastDay={isLastDay}
+//     />
+//   );
+// }
+
+// export default Day;
+// export default function CustomDay({value, setValue}: any) {
+//   return (
+//     <DateCalendar
+//       value={value}
+//       onChange={(newValue: any) => setValue(newValue)}
+//       slots={{ day: Day }}
+//       slotProps={{
+//         day: {
+//           selectedDay: value,
+//         } as any,
+//       }}
+//     />
+//   );
+// }
+
+const WeekPicker = ({value, setValue}: any) => {
+  console.log(value);
     
   const renderWeekPickerDay = (
     date: Dayjs,
     selectedDates: Array<Dayjs | null>,
     pickersDayProps: PickersDayProps<Dayjs>,
   ) => {
+
+    console.log(selectedDates, date);
+    
     if (!value) {
       return <PickersDay {...pickersDayProps} />;
     }
@@ -68,8 +114,7 @@ const PickerDay = ({value, setValue}: any) => {
   return (
     <StaticDatePicker
       displayStaticWrapperAs="desktop"
-      label="Week picker"
-      value={'2022-02-28'}
+      value={value}
       onChange={(newValue) => {
         setValue(newValue)
       }}
@@ -80,4 +125,4 @@ const PickerDay = ({value, setValue}: any) => {
   );
 }
 
-export default PickerDay;
+export default WeekPicker;

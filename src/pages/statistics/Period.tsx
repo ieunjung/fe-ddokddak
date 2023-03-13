@@ -4,7 +4,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs, { Dayjs } from 'dayjs';
 import { useState, SyntheticEvent } from 'react';
-import PickerDay from './PickerDay';
+
+import WeekPicker from './WeekPicker';
+import WeekPicker2 from './WeekPickerDay2';
 
 function a11yProps(index: number) {
   return {
@@ -34,6 +36,24 @@ const Period = () => {
 
   const [value, setValue] = useState<Dayjs | null>(dayjs('2022-04-07'));
   const currDate = new Date().toISOString().slice(0, 10);
+
+  interface ICommonState {
+    value: Dayjs | null;
+    minDate: Dayjs;
+    maxDate: Dayjs;
+    defaultValue: string;
+    onChange: Function;
+  }
+
+  const commonState: ICommonState = {
+    value,
+    minDate: dayjs('2022-01-01'),
+    maxDate: dayjs(currDate),
+    defaultValue: currDate,
+    onChange: (newValue: any) => {
+      setValue(newValue);
+    }
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -74,10 +94,8 @@ const Period = () => {
       >
         {periodType === 'BY_DAY' && (
           <TextField
-            id="date"
             type="date"
-            label="일별"
-            defaultValue={currDate}
+            {...commonState}
             onChange={(newValue) => {
               console.log(newValue);
             }}
@@ -88,15 +106,13 @@ const Period = () => {
           />
         )}
         {periodType === 'BY_WEEK' && (
-          <PickerDay value={value} setValue={setValue} />
+          // <WeekPicker value={value} setValue={setValue} />
+          <WeekPicker2 value={value} setValue={setValue} />
         )}
         {periodType === 'BY_MONTH' && (
           <DatePicker
             views={['year', 'month']}
-            label="월별"
-            minDate={dayjs('2012-03-01')}
-            maxDate={dayjs(currDate)}
-            value={value}
+            {...commonState}
             onChange={(newValue: any) => {
               setValue(newValue);
             }}
@@ -105,14 +121,13 @@ const Period = () => {
         )}
         {periodType === 'BY_YEAR' && (
           <DatePicker
-          views={['year']}
-          label="연별"
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} helperText={null} />}
-        />
+            views={['year']}
+            {...commonState}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} helperText={null} />}
+          />
         )}
       </Grid>
       {/* 날짜 선택 끝 */}
