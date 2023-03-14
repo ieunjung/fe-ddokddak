@@ -3,10 +3,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs, { Dayjs } from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { useState, SyntheticEvent } from 'react';
 
 import WeekPicker from './WeekPicker';
-import WeekPicker2 from './WeekPickerDay2';
+// import WeekPicker from './WeekPickerDay2';
+
+dayjs.extend(utc);
 
 function a11yProps(index: number) {
   return {
@@ -34,26 +37,8 @@ const Period = () => {
     setPeriodType(value);
   };
 
-  const [value, setValue] = useState<Dayjs | null>(dayjs('2022-04-07'));
   const currDate = new Date().toISOString().slice(0, 10);
-
-  interface ICommonState {
-    value: Dayjs | null;
-    minDate: Dayjs;
-    maxDate: Dayjs;
-    defaultValue: string;
-    onChange: Function;
-  }
-
-  const commonState: ICommonState = {
-    value,
-    minDate: dayjs('2022-01-01'),
-    maxDate: dayjs(currDate),
-    defaultValue: currDate,
-    onChange: (newValue: any) => {
-      setValue(newValue);
-    }
-  }
+  const [value, setValue] = useState<Dayjs | null>(dayjs(currDate));
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -95,24 +80,29 @@ const Period = () => {
         {periodType === 'BY_DAY' && (
           <TextField
             type="date"
-            {...commonState}
+            value={value}
             onChange={(newValue) => {
-              console.log(newValue);
+              setValue(dayjs(newValue.target.value))
             }}
             sx={{ width: 220 }}
             InputLabelProps={{
               shrink: true,
             }}
+            inputProps={{
+              min: '2023-01-01',
+              max: currDate
+            }}
           />
         )}
         {periodType === 'BY_WEEK' && (
-          // <WeekPicker value={value} setValue={setValue} />
-          <WeekPicker2 value={value} setValue={setValue} />
+          <WeekPicker value={value} setValue={setValue} />
         )}
         {periodType === 'BY_MONTH' && (
           <DatePicker
             views={['year', 'month']}
-            {...commonState}
+            value={value}
+            minDate={dayjs('2023-01-01')}
+            maxDate={dayjs(currDate)}
             onChange={(newValue: any) => {
               setValue(newValue);
             }}
@@ -122,7 +112,9 @@ const Period = () => {
         {periodType === 'BY_YEAR' && (
           <DatePicker
             views={['year']}
-            {...commonState}
+            value={value}
+            minDate={dayjs('2023-01-01')}
+            maxDate={dayjs(currDate)}
             onChange={(newValue) => {
               setValue(newValue);
             }}
