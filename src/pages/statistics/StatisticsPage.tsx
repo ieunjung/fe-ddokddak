@@ -103,18 +103,15 @@ const StatisticsPage = () => {
   //   setChartType(newType);
   // };
 
-  const [modalInfo, setModalInfo] = useRecoilState(modalState);
-
-  const handleClickBtn = () => {
-    setModalInfo({ ...modalInfo, open: true, msg: 'This is a test.' });
-  };
+  // modal
+  // const [modalInfo, setModalInfo] = useRecoilState(modalState);
+  // const handleClickBtn = () => {
+  //   setModalInfo({ ...modalInfo, open: true, msg: 'This is a test.' });
+  // };
 
   return (
     <>
       <CommonHeader title={'통계'} isShowBackButton={true} />
-      {/* <Button onClick={() => changeChartType('pie')}>PIE</Button>
-      <Button onClick={() => changeChartType('line')}>LINE</Button>
-      <Button onClick={() => changeChartType('bar')}>BAR</Button> */}
       {/* <button onClick={handleClickBtn}>POPUP TEST</button> */}
 
       <Period />

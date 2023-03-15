@@ -3,16 +3,14 @@ import { styled } from '@mui/material/styles';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import dayjs, { Dayjs } from 'dayjs';
-// import {isBetween as isBetweenPlugin, weekday as weekdayPlugin} from 'dayjs/plugin';
-import isBetweenPlugin from 'dayjs/plugin/isBetween';
-import weekdayPlugin from 'dayjs/plugin/weekday';
+// import isBetweenPlugin from 'dayjs/plugin/isBetween';
+// import weekdayPlugin from 'dayjs/plugin/weekday';
 import { useState } from 'react';
 
 import SelectBox from '@/components/common/SelectBox';
 
-
-dayjs.extend(isBetweenPlugin);
-dayjs.extend(weekdayPlugin);
+// dayjs.extend(isBetweenPlugin);
+// dayjs.extend(weekdayPlugin);
 
 interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
   dayIsBetween: boolean;
@@ -98,7 +96,7 @@ const WeekPicker = ({value, setValue}: any) => {
         renderDay={renderWeekPickerDay}
         renderInput={(params) => <TextField {...params} />}
         inputFormat="M월 d일"
-      />  
+      />
     </>
   );
 }

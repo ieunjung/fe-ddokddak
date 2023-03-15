@@ -3,13 +3,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs, { Dayjs } from 'dayjs';
+import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import utc from 'dayjs/plugin/utc';
-import { useState, SyntheticEvent } from 'react';
+import weekdayPlugin from 'dayjs/plugin/weekday';
+import { useState, SyntheticEvent, useEffect } from 'react';
 
 import WeekPicker from './WeekPicker';
-// import WeekPicker from './WeekPickerDay2';
 
 dayjs.extend(utc);
+dayjs.extend(isBetweenPlugin);
+dayjs.extend(weekdayPlugin);
 
 function a11yProps(index: number) {
   return {
@@ -19,6 +22,7 @@ function a11yProps(index: number) {
 }
 
 type PeriodType = 'BY_DAY' | 'BY_WEEK' | 'BY_MONTH' | 'BY_YEAR';
+
 export interface IPeriodType {
   title: string;
   id: PeriodType;
@@ -32,13 +36,25 @@ const periodTypeList: IPeriodType[] = [
 ];
 
 const Period = () => {
-  const [periodType, setPeriodType] = useState(periodTypeList[0].id);
+  const [periodType, setPeriodType] = useState<PeriodType>(periodTypeList[0].id);
   const handlePeriodChange = (e: SyntheticEvent, value: any) => {
     setPeriodType(value);
   };
 
   const currDate = new Date().toISOString().slice(0, 10);
-  const [value, setValue] = useState<Dayjs | null>(dayjs(currDate));
+  const [value, setValue] = useState<Dayjs>(dayjs(currDate));
+
+  useEffect(() => {
+    const selectedDate = value.utc().format().slice(0, 10);
+    console.log(selectedDate);
+    
+    if(periodType === 'BY_DAY'){
+    }else if(periodType === 'BY_MONTH'){
+    }else if(periodType === 'BY_WEEK'){
+    }else if(periodType === 'BY_YEAR'){
+    }
+    
+  }, [value])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -104,6 +120,9 @@ const Period = () => {
             minDate={dayjs('2023-01-01')}
             maxDate={dayjs(currDate)}
             onChange={(newValue: any) => {
+              if(!newValue){
+                return;
+              }
               setValue(newValue);
             }}
             renderInput={(params: any) => <TextField {...params} helperText={null} />}
@@ -115,7 +134,10 @@ const Period = () => {
             value={value}
             minDate={dayjs('2023-01-01')}
             maxDate={dayjs(currDate)}
-            onChange={(newValue) => {
+            onChange={(newValue: any) => {
+              if(!newValue){
+                return;
+              }
               setValue(newValue);
             }}
             renderInput={(params) => <TextField {...params} helperText={null} />}
