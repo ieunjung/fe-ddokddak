@@ -3,16 +3,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs, { Dayjs } from 'dayjs';
-import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import utc from 'dayjs/plugin/utc';
-import weekdayPlugin from 'dayjs/plugin/weekday';
 import { useState, SyntheticEvent, useEffect } from 'react';
 
 import WeekPicker from './WeekPicker';
 
 dayjs.extend(utc);
-dayjs.extend(isBetweenPlugin);
-dayjs.extend(weekdayPlugin);
 
 function a11yProps(index: number) {
   return {
@@ -48,11 +44,11 @@ const Period = () => {
     const selectedDate = value.utc().format().slice(0, 10);
     console.log(selectedDate);
     
-    if(periodType === 'BY_DAY'){
-    }else if(periodType === 'BY_MONTH'){
-    }else if(periodType === 'BY_WEEK'){
-    }else if(periodType === 'BY_YEAR'){
-    }
+    // if(periodType === 'BY_DAY'){
+    // }else if(periodType === 'BY_MONTH'){
+    // }else if(periodType === 'BY_WEEK'){
+    // }else if(periodType === 'BY_YEAR'){
+    // }
     
   }, [value])
 

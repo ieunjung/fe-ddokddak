@@ -3,14 +3,11 @@ import { styled } from '@mui/material/styles';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import dayjs, { Dayjs } from 'dayjs';
-// import isBetweenPlugin from 'dayjs/plugin/isBetween';
-// import weekdayPlugin from 'dayjs/plugin/weekday';
-import { useState } from 'react';
+import isBetweenPlugin from 'dayjs/plugin/isBetween';
+import weekdayPlugin from 'dayjs/plugin/weekday';
 
-import SelectBox from '@/components/common/SelectBox';
-
-// dayjs.extend(isBetweenPlugin);
-// dayjs.extend(weekdayPlugin);
+dayjs.extend(isBetweenPlugin);
+dayjs.extend(weekdayPlugin);
 
 interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
   dayIsBetween: boolean;
@@ -40,6 +37,32 @@ const CustomPickersDay = styled(PickersDay, {
   }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
+function Day(props: PickersDayProps<Dayjs> & { selectedDay?: Dayjs | null }) {
+  const { day, selectedDay, ...other } = props;
+
+  if (selectedDay == null) {
+    return <PickersDay day={day} {...other} />;
+  }
+
+  const start = selectedDay.startOf('week');
+  const end = selectedDay.endOf('week');
+
+  const dayIsBetween = day.isBetween(start, end, null, '[]');
+  const isFirstDay = day.isSame(start, 'day');
+  const isLastDay = day.isSame(end, 'day');
+
+  return (
+    <CustomPickersDay
+      {...other}
+      day={day}
+      disableMargin
+      dayIsBetween={dayIsBetween}
+      isFirstDay={isFirstDay}
+      isLastDay={isLastDay}
+    />
+  );
+}
+
 const WeekPicker = ({value, setValue}: any) => {
 
   const renderWeekPickerDay = (
@@ -51,6 +74,8 @@ const WeekPicker = ({value, setValue}: any) => {
     if (!value) {
       return <PickersDay {...pickersDayProps} />;
     }
+    
+    // console.log(selectedDates);
     
     const start = value.startOf('week');
     const end = value.endOf('week');
@@ -73,31 +98,16 @@ const WeekPicker = ({value, setValue}: any) => {
     );
   };
 
-  const [startOfWeek, setStartOfWeek] = useState('S')
-  const handleTypeCallback = (value: any) => {
-    setStartOfWeek(value);
-
-    // console.log(dayjs().weekday());
-    // if(value === 'S'){
-    //   dayjs().weekday(7);
-    // }else if(value === 'M'){
-    //   dayjs().weekday(0);
-    // }
-  }
-
   return (
-    <>
-      <SelectBox label='시작 요일' value={startOfWeek} optionList={[{title: '일', value: 'S'}, {title: '월', value: 'M'}]} callback={handleTypeCallback} />
-      <DatePicker
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue)
-        }}
-        renderDay={renderWeekPickerDay}
-        renderInput={(params) => <TextField {...params} />}
-        inputFormat="M월 d일"
-      />
-    </>
+    <DatePicker
+      value={value}
+      onChange={(newValue) => {
+        setValue(newValue)
+      }}
+      renderDay={renderWeekPickerDay}
+      renderInput={(params) => <TextField {...params} />}
+      inputFormat="YYYY년 MM월 dd일 ~"
+    />
   );
 }
 
