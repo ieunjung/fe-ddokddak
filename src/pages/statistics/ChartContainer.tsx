@@ -1,24 +1,28 @@
+import { Paper, Button } from '@mui/material';
 import {
-    Chart as ChartJS,
-    ChartType,
-    ArcElement,
-    Tooltip,
-    Legend,
-    CategoryScale,
-    registerables,
-  } from 'chart.js';
-import { useState } from 'react';
-import { Chart } from 'react-chartjs-2';
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  registerables,
+} from 'chart.js';
+import { MouseEvent, useRef } from 'react';
+import {
+  Chart,
+  getDatasetAtEvent,
+  getElementAtEvent,
+  getElementsAtEvent,
+} from 'react-chartjs-2';
 import Carousel from 'react-material-ui-carousel';
-import { Paper, Button } from '@mui/material'
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 
 const pieData = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
   datasets: [
     {
-      label: '# of Votes',
+      // label: '# of Votes',
       data: [12, 19, 3, 5, 2, 3],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -68,45 +72,73 @@ const barData = {
     },
   ],
 };
-const lineData = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: labels.map(() => Math.random() * 2000 - 1000),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => Math.random() * 2000 - 1000),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+
+function Item(props) {
+  return (
+    <Paper>
+      <h2>{props.item.name}</h2>
+      <p>{props.item.description}</p>
+
+      <Button className="CheckButton">Check it out!</Button>
+    </Paper>
+  );
+}
 
 const ChartContainer = () => {
-    const items = [
-        {
-            type: 'pie',
-            data: pieData,
-            options: options
-        },
-        {
-            type: 'bar',
-            data: barData,
-            options: options
-        }
-    ]
+  const carouselOption = {
+    autoPlay: false,
+    animation: 'slide',
+    duration: 0,
+    fullHeightHoverWrapper: {
+      height: '100%',
+      top: '0',
+    },
+  };
 
-    return (
-        <Carousel>
-            {
-                items.map((item, idx) => <Chart key={idx} type={item.type} data={item.data} options={item.options} />)
-            }
-        </Carousel>
-    )
-}
+  const pieChartRef = useRef<ChartJS>(null);
+  const handleClickPieChart = (event: MouseEvent<HTMLCanvasElement>) => {
+    const { current: chart } = pieChartRef;
+
+    if (!chart) {
+      return;
+    }
+
+    console.log(chart.getDatasetMeta(0));
+
+    // console.log(getDatasetAtEvent(chart, event));
+    // console.log(getElementAtEvent(chart, event));
+    // console.log(getElementsAtEvent(chart, event));
+  };
+
+  const barChartRef = useRef<ChartJS>(null);
+  const handleClickBarChart = (event: MouseEvent<HTMLCanvasElement>) => {
+    const { current: chart } = barChartRef;
+
+    const xClick = chart.scales.x.getValueForPixel(event.nativeEvent.offsetX);
+    const element = chart.getDatasetMeta(0).data[xClick];
+    console.log(chart.getDatasetMeta(0), xClick, element);
+  };
+
+  return (
+    <>
+      <Carousel {...carouselOption}>
+        <Chart
+          ref={pieChartRef}
+          type={'pie'}
+          data={pieData}
+          options={options}
+          onClick={handleClickPieChart}
+        />
+        <Chart
+          ref={barChartRef}
+          type={'bar'}
+          data={barData}
+          options={options}
+          onClick={handleClickBarChart}
+        />
+      </Carousel>
+    </>
+  );
+};
 
 export default ChartContainer;

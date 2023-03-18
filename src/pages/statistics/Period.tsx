@@ -32,8 +32,10 @@ const periodTypeList: IPeriodType[] = [
 ];
 
 const Period = () => {
-  const [periodType, setPeriodType] = useState<PeriodType>(periodTypeList[0].id);
-  const handlePeriodChange = (e: SyntheticEvent, value: any) => {
+  const [periodType, setPeriodType] = useState<PeriodType>(
+    periodTypeList[0].id,
+  );
+  const handlePeriodChange = (e: SyntheticEvent, value: PeriodType) => {
     setPeriodType(value);
   };
 
@@ -43,14 +45,13 @@ const Period = () => {
   useEffect(() => {
     const selectedDate = value.utc().format().slice(0, 10);
     console.log(selectedDate);
-    
+
     // if(periodType === 'BY_DAY'){
     // }else if(periodType === 'BY_MONTH'){
     // }else if(periodType === 'BY_WEEK'){
     // }else if(periodType === 'BY_YEAR'){
     // }
-    
-  }, [value])
+  }, [value]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -94,7 +95,7 @@ const Period = () => {
             type="date"
             value={value}
             onChange={(newValue) => {
-              setValue(dayjs(newValue.target.value))
+              setValue(dayjs(newValue.target.value));
             }}
             sx={{ width: 220 }}
             InputLabelProps={{
@@ -102,7 +103,7 @@ const Period = () => {
             }}
             inputProps={{
               min: '2023-01-01',
-              max: currDate
+              max: currDate,
             }}
           />
         )}
@@ -116,12 +117,14 @@ const Period = () => {
             minDate={dayjs('2023-01-01')}
             maxDate={dayjs(currDate)}
             onChange={(newValue: any) => {
-              if(!newValue){
+              if (!newValue) {
                 return;
               }
               setValue(newValue);
             }}
-            renderInput={(params: any) => <TextField {...params} helperText={null} />}
+            renderInput={(params: any) => (
+              <TextField {...params} helperText={null} />
+            )}
           />
         )}
         {periodType === 'BY_YEAR' && (
@@ -131,12 +134,14 @@ const Period = () => {
             minDate={dayjs('2023-01-01')}
             maxDate={dayjs(currDate)}
             onChange={(newValue: any) => {
-              if(!newValue){
+              if (!newValue) {
                 return;
               }
               setValue(newValue);
             }}
-            renderInput={(params) => <TextField {...params} helperText={null} />}
+            renderInput={(params) => (
+              <TextField {...params} helperText={null} />
+            )}
           />
         )}
       </Grid>
