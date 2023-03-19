@@ -43,14 +43,16 @@ const Period = () => {
   const [value, setValue] = useState<Dayjs>(dayjs(currDate));
 
   useEffect(() => {
-    const selectedDate = value.utc().format().slice(0, 10);
-    console.log(selectedDate);
-
-    // if(periodType === 'BY_DAY'){
-    // }else if(periodType === 'BY_MONTH'){
-    // }else if(periodType === 'BY_WEEK'){
-    // }else if(periodType === 'BY_YEAR'){
-    // }
+    // const selectedDate = value.utc().format().slice(0, 10);
+    if (periodType === 'BY_DAY') {
+      console.log('BY_DAY: ', value);
+    } else if (periodType === 'BY_MONTH') {
+      console.log('BY_MONTH: ', value.month());
+    } else if (periodType === 'BY_WEEK') {
+      console.log('BY_WEEK: ', value);
+    } else if (periodType === 'BY_YEAR') {
+      console.log('BY_YEAR: ', value.year());
+    }
   }, [value]);
 
   return (
