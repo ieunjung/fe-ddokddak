@@ -1,4 +1,4 @@
-import { Paper, Button } from '@mui/material';
+import { Paper, Box, Typography } from '@mui/material';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -8,13 +8,10 @@ import {
   registerables,
 } from 'chart.js';
 import { MouseEvent, useRef } from 'react';
-import {
-  Chart,
-  getDatasetAtEvent,
-  getElementAtEvent,
-  getElementsAtEvent,
-} from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 import Carousel from 'react-material-ui-carousel';
+
+import Circle from '@/components/common/Circle';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, ...registerables);
 
@@ -45,7 +42,6 @@ const pieData = {
   ],
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 const options = {
   responsive: true,
   plugins: {
@@ -58,31 +54,22 @@ const options = {
   },
 };
 const barData = {
-  labels,
+  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
   datasets: [
     {
-      label: 'Dataset 1',
-      data: labels.map(() => Math.random() * 1000),
+      label: '',
+      data: [12, 19, 3, 5, 2, 3],
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => Math.random() * 1000),
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
   ],
 };
 
-function Item(props) {
-  return (
-    <Paper>
-      <h2>{props.item.name}</h2>
-      <p>{props.item.description}</p>
-
-      <Button className="CheckButton">Check it out!</Button>
-    </Paper>
-  );
-}
+/* 임시 데이터 */
+const datasets = [
+  { title: '업무', color: 'pink', value: 50 },
+  { title: '야근', color: 'grey', value: 30 },
+  { title: '출장', color: 'black', value: 90 },
+];
 
 const ChartContainer = () => {
   const carouselOption = {
@@ -103,16 +90,16 @@ const ChartContainer = () => {
       return;
     }
 
-    console.log(chart.getDatasetMeta(0));
-
-    // console.log(getDatasetAtEvent(chart, event));
-    // console.log(getElementAtEvent(chart, event));
-    // console.log(getElementsAtEvent(chart, event));
+    console.log(chart.getDatasetMeta(0), event);
   };
 
   const barChartRef = useRef<ChartJS>(null);
   const handleClickBarChart = (event: MouseEvent<HTMLCanvasElement>) => {
     const { current: chart } = barChartRef;
+
+    if (!chart) {
+      return;
+    }
 
     const xClick = chart.scales.x.getValueForPixel(event.nativeEvent.offsetX);
     const element = chart.getDatasetMeta(0).data[xClick];
@@ -122,21 +109,51 @@ const ChartContainer = () => {
   return (
     <>
       <Carousel {...carouselOption}>
-        <Chart
-          ref={pieChartRef}
-          type={'pie'}
-          data={pieData}
-          options={options}
-          onClick={handleClickPieChart}
-        />
-        <Chart
-          ref={barChartRef}
-          type={'bar'}
-          data={barData}
-          options={options}
-          onClick={handleClickBarChart}
-        />
+        <Box
+          sx={{
+            height: '400px',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Chart
+            ref={pieChartRef}
+            type={'pie'}
+            data={pieData}
+            options={options}
+            onClick={handleClickPieChart}
+          />
+        </Box>
+        <Box
+          sx={{ height: '400px', display: 'flex', justifyContent: 'center' }}
+        >
+          <Chart
+            ref={barChartRef}
+            type={'bar'}
+            data={barData}
+            options={options}
+            onClick={handleClickBarChart}
+          />
+        </Box>
       </Carousel>
+
+      {datasets.map((data, idx) => (
+        <Box
+          key={idx}
+          sx={{
+            padding: '15px',
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            marginTop: '20px',
+          }}
+        >
+          <Circle color={data.color} size={40} />
+          <progress id={`progress-${idx}`} max="100" value={data.value}>
+            {data.value}%
+          </progress>
+          <Typography>{data.title}</Typography>
+        </Box>
+      ))}
     </>
   );
 };

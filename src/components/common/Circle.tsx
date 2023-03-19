@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 export interface CircleProps {
   size: number;
   color: any;
-  onClick: any;
+  onClick?: any;
   label?: string;
   selected?: boolean;
 }
