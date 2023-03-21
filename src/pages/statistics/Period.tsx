@@ -40,14 +40,13 @@ const Period = () => {
   };
 
   const currDate = new Date().toISOString().slice(0, 10);
-  const [value, setValue] = useState<Dayjs>(dayjs(currDate));
+  const [value, setValue] = useState(dayjs(currDate));
 
   useEffect(() => {
-    // const selectedDate = value.utc().format().slice(0, 10);
     if (periodType === 'BY_DAY') {
       console.log('BY_DAY: ', value);
     } else if (periodType === 'BY_MONTH') {
-      console.log('BY_MONTH: ', value.month());
+      console.log('BY_MONTH: ', value.month() + 1);
     } else if (periodType === 'BY_WEEK') {
       console.log('BY_WEEK: ', value);
     } else if (periodType === 'BY_YEAR') {

@@ -5,6 +5,7 @@ import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import dayjs, { Dayjs } from 'dayjs';
 import isBetweenPlugin from 'dayjs/plugin/isBetween';
 import weekdayPlugin from 'dayjs/plugin/weekday';
+import { useState } from 'react';
 
 dayjs.extend(isBetweenPlugin);
 dayjs.extend(weekdayPlugin);
@@ -64,7 +65,6 @@ function Day(props: PickersDayProps<Dayjs> & { selectedDay?: Dayjs | null }) {
 }
 
 const WeekPicker = ({value, setValue}: any) => {
-
   const renderWeekPickerDay = (
     date: Dayjs,
     selectedDates: Array<Dayjs | null>,
@@ -74,14 +74,9 @@ const WeekPicker = ({value, setValue}: any) => {
     if (!value) {
       return <PickersDay {...pickersDayProps} />;
     }
-    
-    // console.log(selectedDates);
-    
+
     const start = value.startOf('week');
     const end = value.endOf('week');
-
-    // console.log('start : ', value.startOf('week'));
-    // console.log(end);
 
     const dayIsBetween = date.isBetween(start, end, null, '[]');
     const isFirstDay = date.isSame(start, 'day');
@@ -102,11 +97,12 @@ const WeekPicker = ({value, setValue}: any) => {
     <DatePicker
       value={value}
       onChange={(newValue) => {
-        setValue(newValue)
+        const result = {from: dayjs(newValue).startOf('week'), to: dayjs(newValue).endOf('week') }
+        // setValue(result)
       }}
       renderDay={renderWeekPickerDay}
       renderInput={(params) => <TextField {...params} />}
-      inputFormat="YYYY년 MM월 dd일 ~"
+      inputFormat="YYYY년 M월 D일 ~"
     />
   );
 }
